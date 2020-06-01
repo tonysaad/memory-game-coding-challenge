@@ -12,7 +12,8 @@
     "lint": "eslint --ignore-path ./.gitignore --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint --ignore-path ./.gitignore --quiet \"./**/*.{js,ts}\"",
     "test": "jest --watch",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html",
+    "precommit": "test"
   },
   "devDependencies": {
     "@babel/core": "^7.10.2",

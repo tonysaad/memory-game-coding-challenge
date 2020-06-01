@@ -27,6 +27,7 @@ export const gameState = {
     this.secondCard = undefined;
     this.openedCards = [];
     this.movesCount = 0;
+    this.startTime = 0;
     this.container = container || this.container;
     this.container.addEventListener(
       'click',
@@ -38,12 +39,19 @@ export const gameState = {
     const { target } = e;
     const el = target.hasAttribute('data-index') ? target : target.parentNode;
     const cardIndex = parseInt(el.getAttribute('data-index'));
+    if (
+      this.current === 'FINISHED' &&
+      [...target.classList].includes('modal')
+    ) {
+      return this.reset();
+    }
     if (this.isLocked(cardIndex)) {
       return;
     }
     updateCounter(++this.movesCount);
     if (this.current === 'INIT') {
       this.current = 'IN_PROGRESS';
+      this.startTime = Date.now();
     }
     flipImg(el, this.gridCells[cardIndex]);
     if (typeof this.firstCard === 'undefined') {
@@ -79,19 +87,29 @@ export const gameState = {
       markAsSuccess(this.container, this.firstCard, this.secondCard);
       if (this.openedCards.length === this.gridCells.length) {
         this.current = 'FINISHED';
+        this.container.classList.add('isSolved');
         this.container.removeEventListener(
           'click',
           this.flipEventListener.bind(gameState)
         );
-        setTimeout(
-          () =>
-            confirm('YOU HAVE WONNNNN!!!!!, want to re-play ?') && this.reset(),
-          100
-        );
+        const modal = this.container.querySelector('.modal');
+        if (modal) {
+          modal.classList.add('isVisible');
+          modal.innerHTML = `Congrats, You have won! You've done ${
+            this.movesCount
+          } moves in ${Math.ceil(
+            (Date.now() - this.startTime) / 1000
+          )} seconds. Click to play again`;
+        }
       }
     }
   },
   reset() {
+    const modal = this.container.querySelector('.modal');
+    if (modal) {
+      modal.classList.remove('isVisible');
+    }
+    this.container.classList.remove('isSolved');
     this.container.innerHTML = '';
     this.init();
   },

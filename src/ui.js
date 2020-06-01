@@ -15,6 +15,9 @@ export const getCardsFragment = (cells) => {
   const counter = document.createElement('span');
   counter.classList.add('counter');
   fragment.appendChild(counter);
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  fragment.appendChild(modal);
   return fragment;
 };
 

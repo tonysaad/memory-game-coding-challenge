@@ -34,6 +34,11 @@ h2 {
 body {
   font-family: 'Montserrat', sans-serif;
   background: #48bb78;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: column;
 }
 .is-flipped {
   animation: flip 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
@@ -46,10 +51,10 @@ body {
 }
 .grid {
   display: grid;
-  max-width: 60%;
+  max-width: 64rem;
   margin: 0 auto;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
 }
 .grid > div {
   display: flex;
@@ -59,10 +64,11 @@ body {
   color: white;
   line-height: 10rem;
   font-size: 10rem;
-  background-color: #e1e1e1;
+  background-color: #f0f0f0;
   width: 100%;
   height: 200px;
   transition: opacity ease-in-out 1s;
+  overflow: hidden;
 }
 .is-flipped {
   background: radial-gradient(circle, #f0fff4 25%, #9ae6b4 100%);
@@ -71,14 +77,58 @@ body {
   width: 50%;
 }
 .grid img {
-  width: 100%;
+  max-width: 100%;
+  height: auto;
   mix-blend-mode: multiply;
 }
 .is-opacity {
   opacity: 0.2;
   background-color: #9ae6b4;
 }
+.isSolved .counter {
+  display: none;
+}
 .counter {
   text-align: left;
   font-weight: 400;
+}
+.grid .modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 0 0 0;
+  opacity: 0;
+  z-index: -1;
+  transition: opacity ease-in-out 1s;
+  font-size: 2rem;
+  line-height: 3rem;
+  background: #48bb78d6;
+  padding: 2rem;
+}
+.grid .modal.isVisible {
+  opacity: 1;
+  z-index: 1;
+}
+@media (min-width: 40rem) {
+  .grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .grid .modal {
+    padding: 6rem;
+    background: none;
+    text-shadow: 0 0 10px #48bb78;
+    font-size: 4rem;
+    line-height: 5rem;
+  }
+}
+
+@media (min-width: 64rem) {
+  .grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
