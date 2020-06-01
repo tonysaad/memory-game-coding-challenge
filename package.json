@@ -1,7 +1,7 @@
 {
-  "name": "memory-game-nextmatter-tony",
+  "name": "memory-game-coding-challenge",
   "version": "1.0.0",
-  "description": "a Card Matching Memory Game as a coding challenge for NextMatter",
+  "description": "a Card Matching Memory Game as a coding challenge",
   "main": "src/index.html",
   "author": "Tony Saad",
   "license": "MIT",
