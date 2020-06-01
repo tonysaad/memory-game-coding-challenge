@@ -1,50 +1,51 @@
-import { TILES } from './constant';
+import { TILES, PAIRS_NO } from './constant';
 import { shuffle, preloadImg } from './utils';
-import { getCardsFragment, unflipCards, markAsSuccess, flipImg } from './ui';
+import {
+  getCardsFragment,
+  unflipCards,
+  markAsSuccess,
+  flipImg,
+  updateCounter,
+} from './ui';
+
+export const generateCells = (gameTiles) => {
+  const newGridCells = [];
+  gameTiles.forEach((tile) => {
+    newGridCells.push(...Array(2).fill(tile));
+    preloadImg(tile);
+  });
+  return shuffle(newGridCells);
+};
 
 export const gameState = {
-  pairsNo: 3, //We multiply this number by two to draw a grid of an even number
-  init() {
+  init(container, pairsNo = PAIRS_NO) {
     this.current = 'INIT';
-    this.container = document.querySelector('#game');
-    this.pairsNo = parseInt(this.pairsNo);
-    this.gridCells = this.generateCells();
+    this.pairsNo = parseInt(pairsNo);
+    this.gameTiles = shuffle(TILES).slice(0, this.pairsNo);
+    this.gridCells = generateCells(this.gameTiles);
     this.firstCard = undefined;
     this.secondCard = undefined;
     this.openedCards = [];
     this.movesCount = 0;
+    this.container = container || this.container;
     this.container.addEventListener(
       'click',
       this.flipEventListener.bind(gameState)
     );
-    const fragment = getCardsFragment(this.gridCells);
-    const counter = document.createElement('span');
-    counter.classList.add('counter');
-    fragment.appendChild(counter);
-    this.container.appendChild(fragment);
-  },
-  generateCells() {
-    const newGridCells = [];
-    this.gameTiles = shuffle(TILES).slice(0, this.pairsNo);
-    this.gameTiles.forEach((tile) => {
-      newGridCells.push(...Array(2).fill(tile));
-      preloadImg(tile);
-    });
-    return shuffle(newGridCells);
+    this.container.appendChild(getCardsFragment(this.gridCells));
   },
   flipEventListener(e) {
-    const {
-      target: { parentNode },
-    } = e;
-    const cardIndex = parseInt(parentNode.getAttribute('data-index'));
+    const { target } = e;
+    const el = target.hasAttribute('data-index') ? target : target.parentNode;
+    const cardIndex = parseInt(el.getAttribute('data-index'));
     if (this.isLocked(cardIndex)) {
       return;
     }
-    document.querySelector('.counter').innerHTML = ++this.movesCount;
+    updateCounter(++this.movesCount);
     if (this.current === 'INIT') {
       this.current = 'IN_PROGRESS';
     }
-    flipImg(parentNode, this.gridCells[cardIndex]);
+    flipImg(el, this.gridCells[cardIndex]);
     if (typeof this.firstCard === 'undefined') {
       this.firstCard = cardIndex;
     } else if (typeof this.secondCard === 'undefined') {
@@ -63,9 +64,9 @@ export const gameState = {
   },
   isLocked(cardIndex) {
     return (
-      cardIndex === this.firstCard ||
-      cardIndex === this.secondCard ||
-      this.openedCards.indexOf(cardIndex) !== -1 ||
+      this.openedCards
+        .concat([this.firstCard, this.secondCard])
+        .indexOf(cardIndex) !== -1 ||
       isNaN(cardIndex) ||
       this.current === 'FINISHED'
     );

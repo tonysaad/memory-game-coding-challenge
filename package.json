@@ -11,9 +11,12 @@
     "format:check": "prettier --ignore-path ./.gitignore --check \"./**/*.{html,json,js,ts,css}\"",
     "lint": "eslint --ignore-path ./.gitignore --fix \"./**/*.{js,ts}\"",
     "lint:check": "eslint --ignore-path ./.gitignore --quiet \"./**/*.{js,ts}\"",
-    "test": "jest"
+    "test": "jest --watch"
   },
   "devDependencies": {
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "babel-jest": "^26.0.1",
     "eslint": "^7.1.0",
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.20.2",
