@@ -125,21 +125,22 @@ test('isLocked on double click, do NOT trigger event listener', () => {
 });
 
 test('winning situation on 2x2 grid ? Will status be FINISHED and reset happen', () => {
-  gameState.init(container, 2);
   const cells = container.querySelectorAll('div[data-index]');
   expect(gameState.openedCards).toHaveLength(0);
-  cells[0].click();
-  gameState.gridCells.some((cell, i) => {
-    if (gameState.gridCells[0] === cell && i > 0) {
-      cells[i].click();
-      return true;
-    }
+  cells.forEach((_, index) => {
+    cells[index].click();
+    gameState.gridCells.some((cell, i) => {
+      if (
+        ![...cells[i].classList].includes('is-flipped') &&
+        gameState.gridCells[index] === cell &&
+        i > index
+      ) {
+        cells[i].click();
+        return true;
+      }
+    });
   });
-  expect(gameState.openedCards).toHaveLength(2);
-  gameState.gridCells.forEach((_, i) =>
-    gameState.openedCards.indexOf(i) === -1 ? cells[i].click() : null
-  );
-  expect(gameState.openedCards).toHaveLength(4);
+  expect(gameState.openedCards).toHaveLength(PAIRS_NO * 2);
   expect(gameState.current).toEqual('FINISHED');
   gameState.reset();
   expect(gameState.current).toEqual('INIT');
