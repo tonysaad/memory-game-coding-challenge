@@ -20,3 +20,6 @@ export function shuffle(array) {
 export function preloadImg(path) {
   new Image().src = path;
 }
+
+export const timeElapsed = (startTime) =>
+  Math.ceil((Date.now() - startTime) / 1000);

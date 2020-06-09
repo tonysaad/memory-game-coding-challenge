@@ -1,6 +1,18 @@
-import { gameState } from './gameState';
-import './css/main.css';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './assets/css/main.css';
+import Game from './components/Game';
 
-(() => {
-  gameState.init(document.querySelector('#game'));
-})();
+const App = () => {
+  return (
+    <div className="container">
+      <h1>Card Matching Memory Game</h1>
+      <h2>
+        Coding challenge for <strong>Next Matter</strong>
+      </h2>
+      <Game />
+    </div>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById('root'));

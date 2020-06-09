@@ -1,4 +1,24 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;700&display=swap');
+@font-face {
+  font-family: 'maax';
+  src: url(../fonts/Maax.otf) format('opentype'),
+    url(../fonts/Maax.woff) format('woff');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'maax';
+  src: url(../fonts/Maax-Bold.otf) format('opentype'),
+    url(../fonts/Maax-Bold.woff) format('woff');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'maax';
+  src: url(../fonts/Maax-Medium.otf) format('opentype'),
+    url(../fonts/Maax-Medium.woff) format('woff');
+  font-weight: 500;
+  font-style: normal;
+}
 @keyframes flip {
   0% {
     transform: rotateY(0);
@@ -9,15 +29,13 @@
 }
 h1 {
   margin: 2rem 0 0.5rem;
-  text-shadow: 0 0 2px #22543d;
-  font-size: 1.6rem;
+  font-size: 2.25rem;
+  font-weight: 500;
 }
 h2 {
-  text-shadow: 0 0 2px #22543d;
   margin-bottom: 1rem;
-  font-weight: 300;
-  font-size: 1rem;
-  font-style: italic;
+  font-weight: 400;
+  font-size: 1.25rem;
 }
 .text-white {
   color: white;
@@ -28,12 +46,15 @@ h2 {
 .pt-5 {
   padding-top: 1rem;
 }
+.is-hidden {
+  display: none;
+}
 * {
   box-sizing: border-box;
 }
 body {
-  font-family: 'Montserrat', sans-serif;
-  background: #48bb78;
+  font-family: 'maax', sans-serif;
+  background: #1b57d1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,10 +64,7 @@ body {
 .is-flipped {
   animation: flip 0.4s cubic-bezier(0.455, 0.03, 0.515, 0.955) both;
 }
-.is-flipped .is-placeholder {
-  display: none;
-}
-.is-tile {
+.is-flipped img {
   transform: rotateY(180deg);
 }
 .grid {
@@ -60,39 +78,24 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: inset 0 0 1px 1px #e1e1e1;
   color: white;
   line-height: 10rem;
   font-size: 10rem;
-  background-color: #f0f0f0;
-  width: 100%;
-  height: 200px;
+  background-color: #f0f0f02b;
+  width: 15rem;
+  max-width: 100%;
+  height: 12.5rem;
   transition: opacity ease-in-out 1s;
   overflow: hidden;
 }
-.is-flipped {
-  background: radial-gradient(circle, #f0fff4 25%, #9ae6b4 100%);
-}
-.grid > div:not(.is-flipped) img {
-  width: 50%;
-}
 .grid img {
-  max-width: 100%;
-  height: auto;
-  mix-blend-mode: multiply;
+  max-width: 85%;
+  max-height: 85%;
 }
 .is-opacity {
   opacity: 0.2;
-  background-color: #9ae6b4;
 }
-.isSolved .counter {
-  display: none;
-}
-.counter {
-  text-align: left;
-  font-weight: 400;
-}
-.grid .modal {
+.modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -100,25 +103,24 @@ body {
   height: 100vh;
   font-weight: bold;
   color: white;
-  box-shadow: 0 0 0 0;
   opacity: 0;
   z-index: -1;
-  transition: opacity ease-in-out 1s;
+  transition: opacity ease-in 1s;
   font-size: 2rem;
   line-height: 3rem;
-  background: #48bb78d6;
   padding: 2rem;
 }
-.grid .modal.isVisible {
+.isSolved .modal {
   opacity: 1;
   z-index: 1;
+  cursor: pointer;
 }
 @media (min-width: 40rem) {
   .grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem;
   }
-  .grid .modal {
+  .modal {
     padding: 6rem;
     background: none;
     text-shadow: 0 0 10px #48bb78;
